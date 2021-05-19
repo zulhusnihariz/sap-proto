@@ -1,73 +1,99 @@
 <template>
-  <q-form @submit.prevent="login" class="q-gutter-md">
-    <q-input
-      filled
-      v-model="username"
-      placeholder="Username"
-      :rules="[val => !!val || 'Field is required']"
-    />
+  <q-card style="min-width: 500px">
+    <q-card-section>
+      <div class="text-h6">Add user</div>
+    </q-card-section>
+    <q-card-section>
+      <q-form @submit.prevent="addUser" class="q-gutter-md">
+        <q-input v-model="username" placeholder="Username" filled required />
 
-    <q-input
-      v-model="password"
-      filled
-      :type="isPwd ? 'password' : 'text'"
-      placeholder="Password"
-    >
-      <template v-slot:append>
-        <q-icon
-          :name="isPwd ? 'visibility_off' : 'visibility'"
-          class="cursor-pointer"
-          @click="isPwd = !isPwd"
+        <q-input
+          v-model="password"
+          filled
+          :type="isPwd ? 'password' : 'text'"
+          placeholder="Password"
+          required
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
+
+        <q-input
+          filled
+          v-model="email"
+          placeholder="Email"
+          type="email"
+          required
         />
-      </template>
-    </q-input>
 
-    <!-- <div>
-      <q-btn label="Submit" type="submit" color="primary">
-        <q-popup-proxy v-if="error">
-          <q-banner>
-            {{ error }}
-          </q-banner>
-        </q-popup-proxy>
-      </q-btn>
-    </div> -->
-  </q-form>
+        <q-input
+          filled
+          v-model="contactnumber"
+          placeholder="Contact Number"
+          hint="Format = xxx-xxxxxxx"
+          type="tel"
+          required
+        />
+
+        <q-radio v-model="role" val="admin" label="Admin" />
+        <q-radio v-model="role" val="staff" label="Staff" />
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            label="Add"
+            type="submit"
+            color="primary"
+            style="min-width: 70px"
+          />
+        </q-card-actions>
+      </q-form>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>
 import AuthenticationService from "../services/AuthenticationService";
-import { mapActions } from "vuex";
 
 export default {
-  name: "Login",
+  name: "AddUserCard",
   data() {
     return {
       isPwd: true,
-      username: "",
-      password: "",
+      username: null,
+      password: null,
+      email: null,
+      contactnumber: null,
+      role: null,
       error: null
     };
   },
   methods: {
-    async login() {
-      console.log("login button was clicked");
+    async addUser() {
+      console.log("addNewUser button was clicked");
       try {
-        const response = await AuthenticationService.login({
+        const response = await AuthenticationService.addNewUser({
           username: this.username,
-          password: this.password
+          password: this.password,
+          email: this.email,
+          contactnumber: this.contactnumber,
+          role: this.role
         });
 
-        this.$store.dispatch("setToken", response.data.token);
-        this.$store.dispatch("setUser", response.data.user);
-
-        this.$router.push("/home");
+        // this.$store.dispatch("addNewUser", {
+        //   id: this.$store.state.allUser.length + 1,
+        //   data: response.data
+        // });
+        // this.$emit("added");
+        this.$emit("closed");
       } catch (error) {
         this.error = error.response.data.error;
       }
     }
-  },
-  computed: {
-    ...mapActions("store", ["setToken", "setUser"])
   }
 };
 </script>

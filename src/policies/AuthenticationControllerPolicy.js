@@ -1,11 +1,13 @@
 const Joi = require("joi");
 
 module.exports = {
-  register(req, res, next) {
+  addNewUser(req, res, next) {
     const schema = Joi.object({
-      email: Joi.string().email(),
       username: Joi.string(),
-      password: Joi.string().regex(new RegExp("^[a-zA-Z0-9]{8,32}$"))
+      password: Joi.string().regex(new RegExp("^[a-zA-Z0-9]{8,32}$")),
+      email: Joi.string().email(),
+      contactnumber: Joi.string().regex(new RegExp("[0-9]{3}-[0-9]{7,8}")),
+      role: Joi.string()
     });
 
     const { error, value } = schema.validate(req.body);

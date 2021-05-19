@@ -2,12 +2,6 @@ const AuthenticationController = require("./controllers/AuthenticationController
 const AuthenticationControllerPolicy = require("./policies/AuthenticationControllerPolicy");
 
 module.exports = app => {
-  app.post(
-    "/register",
-    AuthenticationControllerPolicy.register,
-    AuthenticationController.register
-  );
-
   app.post("/login", AuthenticationController.login);
 
   app.post(
@@ -16,7 +10,13 @@ module.exports = app => {
     AuthenticationController.change
   );
 
-  app.post("/settings/delete-account", AuthenticationController.delete);
-
   app.get("/user-management/user", AuthenticationController.allUser);
+
+  app.post(
+    "/user-management/user",
+    AuthenticationControllerPolicy.addNewUser,
+    AuthenticationController.addNewUser
+  );
+
+  app.delete("/user-management/user", AuthenticationController.deleteUser);
 };

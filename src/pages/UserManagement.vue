@@ -6,20 +6,44 @@
         :data="data"
         :columns="columns"
         row-key="id"
+        selection="single"
+        :selected.sync="selected"
         :filter="filter"
-        :loading="loading"
       >
         <template v-slot:top>
           <q-btn
             color="primary"
             :disable="loading"
-            label="Add user"
-            @click="alert = true"
+            label="Add"
+            @click="addUser = true"
+            icon="add"
+            no-caps
+          />
+
+          <q-btn
+            class="q-ml-md"
+            color="primary"
+            :disable="selected.length == 0"
+            label="Delete"
+            @click="confirmDelete = true"
+            icon="delete"
+            no-caps
+          />
+
+          <q-btn
+            class="q-ml-md"
+            color="primary"
+            :disable="selected.length == 0"
+            label="Details"
+            @click="viewDetails = true"
+            icon="info"
+            no-caps
           />
 
           <q-space />
           <q-input
             borderless
+            filled
             dense
             debounce="300"
             color="primary"
@@ -29,41 +53,54 @@
               <q-icon name="search" />
             </template>
           </q-input>
-          <q-dialog v-model="alert" style="max-width: 500px">
-            <q-card maximized>
-              <q-card-section>
-                <div class="text-h6">Add user</div>
-              </q-card-section>
-              <q-card-section>
-                <addUserCard></addUserCard>
-              </q-card-section>
-              <q-card-actions align="right">
-                <q-btn flat label="OK" color="primary" v-close-popup />
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
         </template>
       </q-table>
+      <q-dialog v-model="addUser">
+        <addUserCard @added="allUser" @closed="addUser = false"></addUserCard>
+      </q-dialog>
+
+      <q-dialog v-model="confirmDelete">
+        <confirmDeleteCard
+          :selectedUser="!selected ? 'none' : selected"
+          @deleted="allUser"
+          @closed="confirmDelete = false"
+        ></confirmDeleteCard>
+      </q-dialog>
+      <q-dialog v-model="viewDetails">
+        <viewDetailsCard
+          :selectedUser="!selected ? 'none' : selected"
+        ></viewDetailsCard>
+      </q-dialog>
+
+      <!-- <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div> -->
     </div>
   </q-page>
 </template>
 
 <script>
 import AuthenticationService from "../services/AuthenticationService";
-// import { mapActions } from "vuex";
+import AddUserCard from "../components/AddUserCard";
+import ConfirmDeleteCard from "../components/ConfirmDeleteCard";
+import ViewDetailsCard from "../components/ViewDetailsCard";
 
 export default {
   components: {
-    addUserCard: require("components/AddUserCard").default
+    addUserCard: AddUserCard,
+    confirmDeleteCard: ConfirmDeleteCard,
+    viewDetailsCard: ViewDetailsCard
   },
   data() {
     return {
-      alert: false,
+      selected: [],
+      addUser: false,
+      confirmDelete: false,
+      viewDetails: false,
       confirm: false,
       prompt: false,
+      loading: false,
       address: "",
       filter: "",
-      data: this.$store.state.allUser,
+
       columns: [
         {
           name: "id",
@@ -75,7 +112,7 @@ export default {
         },
         {
           name: "username",
-          label: "username ",
+          label: "Username ",
           align: "center",
           field: "username",
           sortable: true
@@ -83,8 +120,16 @@ export default {
         {
           name: "email",
           align: "center",
-          label: "email",
+          label: "Email",
           field: "email",
+          sortable: true
+        },
+
+        {
+          name: "role",
+          align: "center",
+          label: "Role",
+          field: "role",
           sortable: true
         },
 
@@ -93,12 +138,6 @@ export default {
           label: "createdAt",
           align: "center",
           field: "createdAt"
-        },
-        {
-          name: "updatedAt",
-          label: "updatedAt",
-          align: "center",
-          field: "updatedAt"
         }
       ]
     };
@@ -107,21 +146,19 @@ export default {
     async allUser() {
       try {
         const response = await AuthenticationService.allUser({});
-        console.log(response.data);
         this.$store.dispatch("setAllUser", response.data);
-        console.log(this.$store.state.allUser);
       } catch (error) {
         this.error = error.response.data.error;
       }
     }
   },
-  // },
-  // computed: {
-  //   ...mapActions("store", ["setAllUser"])
-  // },
-
-  created() {
+  mounted() {
     this.allUser();
+  },
+  computed: {
+    data() {
+      return this.$store.state.allUser;
+    }
   }
 };
 </script>

@@ -7,8 +7,8 @@ function hashPassword(user) {
     return;
   }
 
-  return bcrypt.genSaltAsync(SALT_FACTOR).then((salt) =>
-    bcrypt.hashAsync(user.password, salt, null).then((hash) => {
+  return bcrypt.genSaltAsync(SALT_FACTOR).then(salt =>
+    bcrypt.hashAsync(user.password, salt, null).then(hash => {
       user.setDataValue("password", hash);
     })
   );
@@ -18,21 +18,23 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
       username: { type: DataTypes.STRING },
       password: { type: DataTypes.STRING },
+      email: {
+        type: DataTypes.STRING,
+        unique: true
+      },
+      contactnumber: { type: DataTypes.STRING, unique: true },
+      role: { type: DataTypes.STRING }
     },
     {
       hooks: {
-        beforeSave: hashPassword,
-      },
+        beforeSave: hashPassword
+      }
     }
   );
 
-  User.prototype.comparePassword = function (password) {
+  User.prototype.comparePassword = function(password) {
     return bcrypt.compareAsync(password, this.password);
   };
 

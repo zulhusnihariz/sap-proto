@@ -5,7 +5,6 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  namespaced: true,
   plugins: [createPersistedState()],
   state: {
     token: null,
@@ -26,6 +25,10 @@ const store = new Vuex.Store({
     setAllUser(state, allUser) {
       state.allUser = allUser;
     }
+
+    // addNewUser(state, newUser) {
+    //   Vue.set(state.allUser, newUser.id, newUser.data);
+    // }
   },
   actions: {
     setToken: ({ commit }, token) => {
@@ -39,6 +42,10 @@ const store = new Vuex.Store({
     setAllUser: ({ commit }, allUser) => {
       commit("setAllUser", allUser);
     }
+
+    // addNewUser({ commit }, newUser) {
+    //   commit("addNewUser", newUser);
+    // }
   },
 
   getters: {
@@ -49,50 +56,3 @@ const store = new Vuex.Store({
 });
 
 export default store;
-
-// const state = {
-//   isUserLogged: false,
-//   token: null,
-//   user: null,
-//   mode: "change-password"
-// };
-
-// const mutations = {
-//   setToken(state, token) {
-//     state.token = token;
-//     token ? (state.isUserLogged = true) : (state.isUserLogged = false);
-//   },
-
-//   setUser(state, user) {
-//     state.user = user;
-//   },
-
-//   setMode(state, mode) {
-//     state.mode = mode;
-//   }
-// };
-
-// const actions = {
-//   setToken({ commit }, token) {
-//     console.log({ "in action": token });
-//     commit("setToken", token);
-//   },
-
-//   setUser({ commit }, user) {
-//     commit("setUser", user);
-//   },
-
-//   setMode({ commit }, mode) {
-//     commit("setMode", mode);
-//   }
-// };
-
-// const getters = {};
-
-// export default {
-//   namespaced: true,
-//   state,
-//   mutations,
-//   actions,
-//   getters
-// };

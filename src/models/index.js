@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize("krenovator", "root", "password1", {
   dialect: "mysql",
-  host: "localhost",
+  host: "localhost"
 });
 
 try {
@@ -18,8 +18,8 @@ try {
 const db = {};
 
 fs.readdirSync(__dirname)
-  .filter((file) => file !== "index.js")
-  .forEach((file) => {
+  .filter(file => file !== "index.js")
+  .forEach(file => {
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes

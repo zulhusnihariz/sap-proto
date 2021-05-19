@@ -92,11 +92,11 @@
                 >
               </q-item>
 
-              <q-item clickable v-ripple>
+              <!-- <q-item clickable v-ripple>
                 <q-item-section class="text-weight-regular"
                   >Delete Account</q-item-section
                 >
-              </q-item>
+              </q-item> -->
             </q-expansion-item>
           </q-list>
 

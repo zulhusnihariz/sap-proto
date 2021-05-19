@@ -13,13 +13,14 @@ module.exports = {
   // create new data in database
 
   async allUser(req, res) {
+    console.log("inside controller: getAllUser");
+
     console.log(User);
     try {
       let user = await User.findAll(req.body);
 
       user = JSON.stringify(user);
       user = JSON.parse(user);
-      console.log(user);
       res.send(user);
 
       // res.send(user);
@@ -30,8 +31,8 @@ module.exports = {
     }
   },
 
-  async register(req, res) {
-    console.log(User);
+  async addNewUser(req, res) {
+    console.log("inside controller: addNewUser");
     try {
       const user = await User.create(req.body);
       res.send(user.toJSON());
@@ -44,6 +45,7 @@ module.exports = {
 
   // find data in database that match email given
   async login(req, res) {
+    console.log("inside controller: login");
     try {
       const { username, password } = req.body;
       const user = await User.findOne({
@@ -65,7 +67,6 @@ module.exports = {
         });
       }
       userJson = user.toJSON();
-      console.log(userJson);
       res.send({ user: userJson, token: jwtSignUser(userJson) });
     } catch (err) {
       res.status(500).send({
@@ -75,7 +76,7 @@ module.exports = {
   },
 
   async change(req, res) {
-    console.log("inside controller");
+    console.log("inside controller: change");
     try {
       const { username, password, newPassword, confirmPassword } = req.body;
       const user = await User.findOne({
@@ -83,9 +84,6 @@ module.exports = {
           username: username
         }
       });
-
-      console.log(req.body);
-      console.log(`enter`);
 
       const isPasswordValid = await user.comparePassword(password);
 
@@ -101,7 +99,6 @@ module.exports = {
         });
       }
       user.password = newPassword;
-      console.log(newPassword);
       await user.save();
 
       res.send({ user: user.toJSON() });
@@ -112,17 +109,19 @@ module.exports = {
     }
   },
 
-  async delete(req, res) {
+  async deleteUser(req, res) {
+    console.log("inside controller: delete");
     try {
-      const { email } = req.body;
+      const { username, id } = req.body;
+
       const user = await User.findOne({
         where: {
-          email: email
+          id: id,
+          username: username
         }
       });
 
       await user.destroy({ truncate: true });
-
       res.send({ user: user.toJSON() });
     } catch (err) {
       res.status(500).send({
