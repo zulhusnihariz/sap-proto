@@ -74,17 +74,15 @@
           :selectedUser="!selected ? 'none' : selected"
         ></viewDetailsCard>
       </q-dialog>
-
-      <!-- <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div> -->
     </div>
   </q-page>
 </template>
 
 <script>
 import AuthenticationService from "../services/AuthenticationService";
-import AddUserCard from "../components/AddUserCard";
-import ConfirmDeleteCard from "../components/ConfirmDeleteCard";
-import ViewDetailsCard from "../components/ViewDetailsCard";
+import AddUserCard from "../components/UserManagement/AddUserCard";
+import ConfirmDeleteCard from "../components/UserManagement/ConfirmDeleteCard";
+import ViewDetailsCard from "../components/UserManagement/ViewDetailsCard";
 
 export default {
   components: {

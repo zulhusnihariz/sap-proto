@@ -22,9 +22,9 @@ export default {
   },
 
   uploadData(credentials) {
-    return Api().post("database", credentials);
+    return Api().post("database/upload", credentials);
   },
   getDatabaseData(credentials) {
-    return Api().get("database", credentials);
+    return Api().get("database/view", credentials);
   }
 };

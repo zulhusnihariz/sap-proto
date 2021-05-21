@@ -20,7 +20,7 @@ module.exports = app => {
 
   app.delete("/user-management/user", AuthenticationController.deleteUser);
 
-  app.post("/database", AuthenticationController.uploadData);
+  app.post("/database/upload", AuthenticationController.uploadData);
 
-  app.get("/database", AuthenticationController.getDatabaseData);
+  app.get("/database/view", AuthenticationController.getDatabaseData);
 };

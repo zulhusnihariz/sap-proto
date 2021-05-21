@@ -14,8 +14,13 @@ const routes = [
         component: () => import("pages/Home.vue")
       },
       {
-        path: "/database",
-        name: "Database",
+        path: "/database/upload",
+        name: "DatabaseUpload",
+        component: () => import("pages/Database.vue")
+      },
+      {
+        path: "/database/view",
+        name: "DatabaseView",
         component: () => import("pages/Database.vue")
       },
       {
