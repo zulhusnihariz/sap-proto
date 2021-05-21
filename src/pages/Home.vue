@@ -4,7 +4,7 @@
       <h6 v-if="$store.state.isUserLogged">
         Welcome, {{ $store.state.user.username }}!
       </h6>
-      <h6>Logged in: {{ $store.state.isUserLogged }}</h6>
+      <h6>Role: {{ $store.state.user.role }}</h6>
     </div></q-page
   >
 </template>

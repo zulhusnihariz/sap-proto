@@ -15,7 +15,7 @@
             color="primary"
             :disable="loading"
             label="Add"
-            @click="addUser = true"
+            @click="addUserAlert = true"
             icon="add"
             no-caps
           />
@@ -25,7 +25,7 @@
             color="primary"
             :disable="selected.length == 0"
             label="Delete"
-            @click="confirmDelete = true"
+            @click="confirmDeleteAlert = true"
             icon="delete"
             no-caps
           />
@@ -35,7 +35,7 @@
             color="primary"
             :disable="selected.length == 0"
             label="Details"
-            @click="viewDetails = true"
+            @click="viewDetailsAlert = true"
             icon="info"
             no-caps
           />
@@ -55,18 +55,21 @@
           </q-input>
         </template>
       </q-table>
-      <q-dialog v-model="addUser">
-        <addUserCard @added="allUser" @closed="addUser = false"></addUserCard>
+      <q-dialog v-model="addUserAlert">
+        <addUserCard
+          @added="getAllUser"
+          @closed="addUserAlert = false"
+        ></addUserCard>
       </q-dialog>
 
-      <q-dialog v-model="confirmDelete">
+      <q-dialog v-model="confirmDeleteAlert">
         <confirmDeleteCard
           :selectedUser="!selected ? 'none' : selected"
-          @deleted="allUser"
-          @closed="confirmDelete = false"
+          @deleted="getAllUser"
+          @closed="confirmDeleteAlert = false"
         ></confirmDeleteCard>
       </q-dialog>
-      <q-dialog v-model="viewDetails">
+      <q-dialog v-model="viewDetailsAlert">
         <viewDetailsCard
           :selectedUser="!selected ? 'none' : selected"
         ></viewDetailsCard>
@@ -92,9 +95,9 @@ export default {
   data() {
     return {
       selected: [],
-      addUser: false,
-      confirmDelete: false,
-      viewDetails: false,
+      addUserAlert: false,
+      confirmDeleteAlert: false,
+      viewDetailsAlert: false,
       confirm: false,
       prompt: false,
       loading: false,
@@ -143,9 +146,9 @@ export default {
     };
   },
   methods: {
-    async allUser() {
+    async getAllUser() {
       try {
-        const response = await AuthenticationService.allUser({});
+        const response = await AuthenticationService.getAllUser({});
         this.$store.dispatch("setAllUser", response.data);
       } catch (error) {
         this.error = error.response.data.error;
@@ -153,7 +156,7 @@ export default {
     }
   },
   mounted() {
-    this.allUser();
+    this.getAllUser();
   },
   computed: {
     data() {

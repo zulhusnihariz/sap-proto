@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const { StaffListing } = require("../models");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 
@@ -12,7 +13,7 @@ function jwtSignUser(user) {
 module.exports = {
   // create new data in database
 
-  async allUser(req, res) {
+  async getAllUser(req, res) {
     console.log("inside controller: getAllUser");
 
     console.log(User);
@@ -31,10 +32,11 @@ module.exports = {
     }
   },
 
-  async addNewUser(req, res) {
+  async addUser(req, res) {
     console.log("inside controller: addNewUser");
     try {
       const user = await User.create(req.body);
+      console.log(req.body);
       res.send(user.toJSON());
     } catch (err) {
       res.status(400).send({
@@ -66,6 +68,7 @@ module.exports = {
           error: "Incorrect Password"
         });
       }
+
       userJson = user.toJSON();
       res.send({ user: userJson, token: jwtSignUser(userJson) });
     } catch (err) {
@@ -126,6 +129,42 @@ module.exports = {
     } catch (err) {
       res.status(500).send({
         error: "An error has occured trying to log in"
+      });
+    }
+  },
+
+  async uploadData(req, res) {
+    console.log("inside controller: uploadData");
+    try {
+      await StaffListing.destroy({
+        truncate: true
+      });
+
+      req.body.data.forEach(async function(data) {
+        await StaffListing.create(data);
+      });
+
+      res.send({ message: "Successfully updated" });
+    } catch (err) {
+      res.status(400).send({
+        error: "Oops, an error has occured"
+      });
+    }
+  },
+
+  async getDatabaseData(req, res) {
+    console.log("inside controller: getAllUser");
+
+    console.log(User);
+    try {
+      let user = await StaffListing.findAll(req.body);
+
+      user = JSON.stringify(user);
+      user = JSON.parse(user);
+      res.send(user);
+    } catch (err) {
+      res.status(400).send({
+        error: "An error occured. Unable to retrieve data"
       });
     }
   }

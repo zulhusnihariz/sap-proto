@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     token: null,
     user: null,
     isUserLogged: false,
-    allUser: null
+    allUser: null,
+    databaseData: null
   },
   mutations: {
     setToken(state, token) {
@@ -24,6 +25,10 @@ const store = new Vuex.Store({
 
     setAllUser(state, allUser) {
       state.allUser = allUser;
+    },
+
+    setDatabaseData(state, databaseData) {
+      state.databaseData = databaseData;
     }
 
     // addNewUser(state, newUser) {
@@ -41,17 +46,15 @@ const store = new Vuex.Store({
 
     setAllUser: ({ commit }, allUser) => {
       commit("setAllUser", allUser);
+    },
+
+    setDatabaseData: ({ commit }, databaseData) => {
+      commit("setDatabaseData", databaseData);
     }
 
     // addNewUser({ commit }, newUser) {
     //   commit("addNewUser", newUser);
     // }
-  },
-
-  getters: {
-    allUser: state => {
-      return state.allUser;
-    }
   }
 });
 

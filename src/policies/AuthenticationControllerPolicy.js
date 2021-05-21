@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 module.exports = {
-  addNewUser(req, res, next) {
+  addUser(req, res, next) {
     const schema = Joi.object({
       username: Joi.string(),
       password: Joi.string().regex(new RegExp("^[a-zA-Z0-9]{8,32}$")),

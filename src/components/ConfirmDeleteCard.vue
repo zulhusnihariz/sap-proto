@@ -55,6 +55,7 @@ export default {
           }
         });
         console.log(response);
+        this.$emit("deleted");
         this.$emit("closed");
       } catch (error) {
         this.error = error.response.data.error;

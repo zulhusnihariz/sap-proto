@@ -74,9 +74,9 @@ export default {
   },
   methods: {
     async addUser() {
-      console.log("addNewUser button was clicked");
+      console.log("addUser button was clicked");
       try {
-        const response = await AuthenticationService.addNewUser({
+        const response = await AuthenticationService.addUser({
           username: this.username,
           password: this.password,
           email: this.email,
@@ -88,7 +88,7 @@ export default {
         //   id: this.$store.state.allUser.length + 1,
         //   data: response.data
         // });
-        // this.$emit("added");
+        this.$emit("added");
         this.$emit("closed");
       } catch (error) {
         this.error = error.response.data.error;

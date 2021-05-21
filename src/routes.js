@@ -10,13 +10,17 @@ module.exports = app => {
     AuthenticationController.change
   );
 
-  app.get("/user-management/user", AuthenticationController.allUser);
+  app.get("/user-management/user", AuthenticationController.getAllUser);
 
   app.post(
     "/user-management/user",
-    AuthenticationControllerPolicy.addNewUser,
-    AuthenticationController.addNewUser
+    AuthenticationControllerPolicy.addUser,
+    AuthenticationController.addUser
   );
 
   app.delete("/user-management/user", AuthenticationController.deleteUser);
+
+  app.post("/database", AuthenticationController.uploadData);
+
+  app.get("/database", AuthenticationController.getDatabaseData);
 };

@@ -6,6 +6,7 @@
   "author": "Zulhusni Hariz",
   "private": true,
   "scripts": {
+    "exjson": "node ExcelToJson.js",
     "start": "nodemon src/app.js",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -23,7 +24,8 @@
     "mysql2": "^2.2.5",
     "quasar": "^1.0.0",
     "sequelize": "^6.6.2",
-    "vuex-persistedstate": "^4.0.0-beta.3"
+    "vuex-persistedstate": "^4.0.0-beta.3",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0"

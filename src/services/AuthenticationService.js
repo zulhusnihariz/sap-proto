@@ -8,13 +8,23 @@ export default {
     return Api().post("settings/change-password", credentials);
   },
 
-  allUser(credentials) {
+  getAllUser(credentials) {
     return Api().get("user-management/user", credentials);
   },
-  addNewUser(credentials) {
+  addUser(credentials) {
     return Api().post("user-management/user", credentials);
   },
   deleteUser(credentials) {
     return Api().delete("user-management/user", credentials);
+  },
+  deleteUser(credentials) {
+    return Api().delete("user-management/user", credentials);
+  },
+
+  uploadData(credentials) {
+    return Api().post("database", credentials);
+  },
+  getDatabaseData(credentials) {
+    return Api().get("database", credentials);
   }
 };

@@ -51,7 +51,9 @@
           </q-item>
 
           <q-item
-            v-if="$store.state.isUserLogged"
+            v-if="
+              $store.state.isUserLogged && $store.state.user.role == 'admin'
+            "
             :to="{ name: 'Database' }"
             clickable
             v-ripple
@@ -64,7 +66,9 @@
 
           <q-list>
             <q-expansion-item
-              v-if="$store.state.isUserLogged"
+              v-if="
+                $store.state.isUserLogged && $store.state.user.role == 'admin'
+              "
               expand-separator
               class="text-weight-bold"
               icon="manage_accounts"
