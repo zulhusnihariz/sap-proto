@@ -2,18 +2,20 @@
   <q-page class="flex flex-start">
     <databaseUpload v-if="uploadMode"></databaseUpload>
     <databaseView v-if="viewMode"></databaseView>
+    <databaseGenerate v-if="generateMode"></databaseGenerate>
   </q-page>
 </template>
 
 <script>
 import DatabaseUpload from "../components/Database/DatabaseUpload";
 import DatabaseView from "../components/Database/DatabaseView";
-
+import DatabaseGenerate from "../components/Database/DatabaseGenerate";
 export default {
   name: "Database",
   components: {
     databaseUpload: DatabaseUpload,
-    databaseView: DatabaseView
+    databaseView: DatabaseView,
+    databaseGenerate: DatabaseGenerate
   },
   computed: {
     uploadMode() {
@@ -25,6 +27,14 @@ export default {
     },
     viewMode() {
       if (this.$route.path == "/database/view") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    generateMode() {
+      if (this.$route.path == "/database/generate") {
         return true;
       } else {
         return false;

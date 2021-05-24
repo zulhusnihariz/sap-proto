@@ -8,7 +8,7 @@
       :virtual-scroll-sticky-size-start="48"
       title="Current Database"
       :data="data"
-      :columns="columns"
+      :columns="columns()"
       row-key="id"
       selection="single"
       :selected.sync="selected"
@@ -27,6 +27,7 @@
         />
 
         <q-space />
+
         <q-input
           borderless
           filled
@@ -41,14 +42,22 @@
         </q-input>
       </template>
     </q-table>
+
+    <q-dialog v-model="viewDetailsAlert">
+      <viewDetailsCard
+        :selectedUser="!selected ? 'none' : selected"
+      ></viewDetailsCard>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import AuthenticationService from "../../services/AuthenticationService";
+import ViewDetailsCard from "./ViewDetailsCard";
 
 export default {
-  name: "Database",
+  name: "DatabaseView",
+  components: { viewDetailsCard: ViewDetailsCard },
 
   data() {
     return {
@@ -57,65 +66,6 @@ export default {
       confirm: false,
       filter: "",
 
-      columns: [
-        {
-          name: "id",
-          required: true,
-          label: "Id",
-          align: "left",
-          field: "id",
-          sortable: true
-        },
-        {
-          name: "EmpID",
-          label: "Employee ID ",
-          align: "center",
-          field: "EmpID",
-          sortable: true
-        },
-        {
-          name: "Name",
-          label: "Name ",
-          align: "center",
-          field: "Name",
-          sortable: true
-        },
-        {
-          name: "DeptID",
-          align: "center",
-          label: "Department  ID",
-          field: "DeptID",
-          sortable: true
-        },
-        {
-          name: "Department",
-          align: "center",
-          label: "Department",
-          field: "Department",
-          sortable: true
-        },
-        {
-          name: "PositionID",
-          align: "center",
-          label: "PID",
-          field: "PositionID",
-          sortable: true
-        },
-        {
-          name: "Position",
-          align: "center",
-          label: "Position",
-          field: "Position",
-          sortable: true
-        },
-        {
-          name: "MngrName",
-          align: "center",
-          label: "Reporting Manager",
-          field: "MngrName",
-          sortable: true
-        }
-      ],
       pagination: {
         rowsPerPage: 0
       }
@@ -129,6 +79,17 @@ export default {
       } catch (error) {
         this.error = error.response.data.error;
       }
+    },
+    columns() {
+      return Object.keys(this.$store.state.databaseData[0]).map(key => {
+        return {
+          name: key,
+          label: key,
+          align: "left",
+          sortable: true,
+          field: key
+        };
+      });
     }
   },
   mounted() {

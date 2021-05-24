@@ -114,13 +114,13 @@ export default {
         {
           name: "username",
           label: "Username ",
-          align: "center",
+          align: "left",
           field: "username",
           sortable: true
         },
         {
           name: "email",
-          align: "center",
+          align: "left",
           label: "Email",
           field: "email",
           sortable: true
@@ -128,7 +128,7 @@ export default {
 
         {
           name: "role",
-          align: "center",
+          align: "left",
           label: "Role",
           field: "role",
           sortable: true
@@ -137,7 +137,7 @@ export default {
         {
           name: "createdAt",
           label: "createdAt",
-          align: "center",
+          align: "left",
           field: "createdAt"
         }
       ]

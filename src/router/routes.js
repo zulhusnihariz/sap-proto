@@ -24,6 +24,11 @@ const routes = [
         component: () => import("pages/Database.vue")
       },
       {
+        path: "/database/generate",
+        name: "DatabaseGenerate",
+        component: () => import("pages/Database.vue")
+      },
+      {
         path: "/user-management/user",
         name: "UserManagement",
         component: () => import("pages/UserManagement.vue")

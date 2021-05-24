@@ -41,10 +41,26 @@
             clickable
             v-ripple
           >
-            <q-item-section class="text-weight-regular">Upload</q-item-section>
+            <q-item-section class="text-weight-regular"
+              >Upload Data</q-item-section
+            >
           </q-item>
           <q-item :to="{ name: 'DatabaseView' }" clickable v-ripple>
-            <q-item-section class="text-weight-regular">View</q-item-section>
+            <q-item-section class="text-weight-regular"
+              >View Database</q-item-section
+            >
+          </q-item>
+          <q-item
+            :to="{ name: 'DatabaseGenerate' }"
+            v-if="
+              $store.state.isUserLogged && $store.state.user.role == 'staff'
+            "
+            clickable
+            v-ripple
+          >
+            <q-item-section class="text-weight-regular"
+              >Generate Template</q-item-section
+            >
           </q-item>
         </q-expansion-item>
       </q-list>

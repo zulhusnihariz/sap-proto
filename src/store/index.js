@@ -11,7 +11,9 @@ const store = new Vuex.Store({
     user: null,
     isUserLogged: false,
     allUser: null,
-    databaseData: null
+    databaseData: null,
+    sheetsName: null,
+    changeDepartmentColumn: null
   },
   mutations: {
     setToken(state, token) {
@@ -29,11 +31,13 @@ const store = new Vuex.Store({
 
     setDatabaseData(state, databaseData) {
       state.databaseData = databaseData;
+    },
+    setSheetsName(state, sheetsName) {
+      state.sheetsName = sheetsName;
+    },
+    setChangeDepartmentColumn(state, changeDepartmentColumn) {
+      state.changeDepartmentColumn = changeDepartmentColumn;
     }
-
-    // addNewUser(state, newUser) {
-    //   Vue.set(state.allUser, newUser.id, newUser.data);
-    // }
   },
   actions: {
     setToken: ({ commit }, token) => {
@@ -50,11 +54,13 @@ const store = new Vuex.Store({
 
     setDatabaseData: ({ commit }, databaseData) => {
       commit("setDatabaseData", databaseData);
+    },
+    setSheetsName: ({ commit }, sheetsName) => {
+      commit("setSheetsName", sheetsName);
+    },
+    setChangeDepartmentColumn: ({ commit }, changeDepartmentColumn) => {
+      commit("setChangeDepartmentColumn", changeDepartmentColumn);
     }
-
-    // addNewUser({ commit }, newUser) {
-    //   commit("addNewUser", newUser);
-    // }
   }
 });
 
